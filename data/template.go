@@ -1,4 +1,4 @@
-package main
+package data
 
 import (
 	"html/template"
@@ -15,7 +15,7 @@ type TodoPageData struct {
 	Todos     []Todo
 }
 
-func RunTodoServer() {
+func Template() {
 	tmpl := template.Must(template.ParseFiles("layout.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := TodoPageData{
