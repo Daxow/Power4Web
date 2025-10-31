@@ -1,15 +1,32 @@
 package main
 
 import (
-    "fmt"
-    "net/http"
+	"fmt"
+	"net/http"
 )
 
-func main() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintln(w, "TEST")
-    })
+type Game struct {
+	Board  [6][7]int
+	Player int
+	Winner int
+}
 
-    fmt.Println("Serveur sur http://localhost:8080")
-    http.ListenAndServe(":8080", nil)
+var game = Game{
+	Player: 1,
+}
+
+func handleIndex(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Puissance 4")
+	fmt.Fprintln(w, "Joueur:", game.Player, "Gagnant:", game.Winner)
+	for i := 0; i < 6; i++ {
+		for j := 0; j < 7; j++ {
+			fmt.Fprint(w, game.Board[i][j], " ")
+		}
+		fmt.Fprintln(w)
+	}
+}
+
+func main() {
+	http.HandleFunc("/", handleIndex)
+	http.ListenAndServe(":8080", nil)
 }
